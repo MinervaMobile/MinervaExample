@@ -1,0 +1,6 @@
+framework module MinervaList {
+  umbrella header "MinervaList-umbrella.h"
+
+  export *
+  module * { export * }
+}

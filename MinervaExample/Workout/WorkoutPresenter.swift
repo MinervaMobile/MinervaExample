@@ -5,7 +5,9 @@
 //
 
 import Foundation
-import Minerva
+import MinervaCoordinator
+import MinervaExtensions
+import MinervaList
 import RxRelay
 import RxSwift
 import UIKit
@@ -60,8 +62,8 @@ public final class WorkoutPresenter: ListPresenter {
       repository.user,
       filterSubject.asObservable()
     )
-    .observeOn(
-      queue
+    .observe(
+      on: queue
     )
     .subscribe(
       onNext: process(workoutsResult:userResult:filter:)
@@ -107,7 +109,7 @@ public final class WorkoutPresenter: ListPresenter {
       .subscribe { [weak self] event in
         guard let strongSelf = self else { return }
         switch event {
-        case let .error(error):
+        case let .failure(error):
           strongSelf.errorSubject.onNext(error)
         case .success:
           break

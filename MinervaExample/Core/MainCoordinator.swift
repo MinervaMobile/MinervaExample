@@ -5,7 +5,9 @@
 //
 
 import Foundation
-import Minerva
+import MinervaCoordinator
+import MinervaExtensions
+import MinervaList
 import UIKit
 
 public class MainCoordinator<T: ListPresenter, U: ListViewController>: BaseCoordinator<T, U> {

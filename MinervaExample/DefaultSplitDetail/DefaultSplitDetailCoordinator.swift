@@ -5,7 +5,9 @@
 //
 
 import Foundation
-import Minerva
+import MinervaCoordinator
+import MinervaExtensions
+import MinervaList
 import RxSwift
 import UIKit
 

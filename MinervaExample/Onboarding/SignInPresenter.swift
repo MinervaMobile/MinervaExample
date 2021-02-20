@@ -4,7 +4,9 @@
 // https://github.com/OptimizeFitness/Minerva/blob/master/LICENSE
 //
 
-import Minerva
+import MinervaCoordinator
+import MinervaExtensions
+import MinervaList
 import RxRelay
 import RxSwift
 import UIKit

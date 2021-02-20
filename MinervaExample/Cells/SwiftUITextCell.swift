@@ -6,7 +6,9 @@
 
 import Combine
 import Foundation
-import Minerva
+import MinervaCoordinator
+import MinervaExtensions
+import MinervaList
 import RxSwift
 import SwiftUI
 import UIKit
@@ -42,7 +44,7 @@ public final class SwiftUITextCellModel: BaseListCellModel, ObservableObject,
   public var imageObservable: Observable<UIImage?>? {
     didSet {
       imageObservable?
-        .observeOn(MainScheduler.instance)
+        .observe(on: MainScheduler.instance)
         .subscribe(onNext: { [weak self] i in
           self?.image = i
         })

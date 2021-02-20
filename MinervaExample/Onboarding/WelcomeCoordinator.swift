@@ -5,7 +5,9 @@
 //
 
 import Foundation
-import Minerva
+import MinervaCoordinator
+import MinervaExtensions
+import MinervaList
 import RxSwift
 import UIKit
 
@@ -37,7 +39,7 @@ public final class WelcomeCoordinator: MainCoordinator<WelcomePresenter, Collect
         listController: listController
       )
     presenter.actions
-      .observeOn(MainScheduler.instance)
+      .observe(on: MainScheduler.instance)
       .subscribe(onNext: { [weak self] in self?.handle($0) })
       .disposed(
         by: disposeBag

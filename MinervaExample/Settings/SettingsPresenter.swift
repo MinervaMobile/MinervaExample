@@ -5,7 +5,9 @@
 //
 
 import Foundation
-import Minerva
+import MinervaCoordinator
+import MinervaExtensions
+import MinervaList
 import RxRelay
 import RxSwift
 import UIKit
@@ -30,13 +32,13 @@ public final class SettingsPresenter: ListPresenter {
   public init(dataManager: DataManager) {
     self.dataManager = dataManager
     dataManager.user(withID: dataManager.userAuthorization.userID)
-      .observeOn(MainScheduler.instance)
+      .observe(on: MainScheduler.instance)
       .subscribe(
         onSuccess: { [weak self] (user: User?) -> Void in
           guard let strongSelf = self else { return }
           strongSelf.sections.accept(strongSelf.createSections(with: user))
         },
-        onError: { [weak self] _ -> Void in
+        onFailure: { [weak self] _ -> Void in
           guard let strongSelf = self else { return }
           strongSelf.sections.accept(strongSelf.createSections(with: nil))
         }

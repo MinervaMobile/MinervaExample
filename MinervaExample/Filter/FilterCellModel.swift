@@ -1,5 +1,7 @@
 import Foundation
-import Minerva
+import MinervaCoordinator
+import MinervaExtensions
+import MinervaList
 
 public final class FilterCellModel: LabelAccessoryCellModel, ListSelectableCellModel {
   public typealias SelectableModelType = FilterCellModel

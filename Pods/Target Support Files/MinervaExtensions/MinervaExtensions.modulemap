@@ -1,0 +1,6 @@
+framework module MinervaExtensions {
+  umbrella header "MinervaExtensions-umbrella.h"
+
+  export *
+  module * { export * }
+}

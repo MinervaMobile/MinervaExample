@@ -5,7 +5,9 @@
 //
 
 import Foundation
-import Minerva
+import MinervaCoordinator
+import MinervaExtensions
+import MinervaList
 import RxSwift
 import UIKit
 
@@ -37,14 +39,14 @@ public final class SettingsCoordinator: MainCoordinator<SettingsPresenter, Setti
         listController: listController
       )
     presenter.actions
-      .observeOn(MainScheduler.instance)
+      .observe(on: MainScheduler.instance)
       .subscribe(onNext: { [weak self] in self?.handle($0) })
       .disposed(
         by: disposeBag
       )
 
     viewController.actionRelay
-      .observeOn(MainScheduler.instance)
+      .observe(on: MainScheduler.instance)
       .subscribe(onNext: { [weak self] in self?.handle($0) })
       .disposed(
         by: disposeBag
@@ -57,14 +59,14 @@ public final class SettingsCoordinator: MainCoordinator<SettingsPresenter, Setti
     let userID = dataManager.userAuthorization.userID
     LoadingHUD.show(in: viewController.view)
     userManager.delete(userID: userID)
-      .observeOn(MainScheduler.instance)
+      .observe(on: MainScheduler.instance)
       .subscribe(
         onSuccess: { [weak self] () -> Void in
           guard let strongSelf = self else { return }
           LoadingHUD.hide(from: strongSelf.viewController.view)
           strongSelf.delegate?.settingsCoordinatorLogoutCurrentUser(strongSelf)
         },
-        onError: { [weak self] error -> Void in
+        onFailure: { [weak self] error -> Void in
           guard let strongSelf = self else { return }
           LoadingHUD.hide(from: strongSelf.viewController.view)
           strongSelf.viewController.alert(error, title: "Failed to delete the user")
@@ -77,14 +79,14 @@ public final class SettingsCoordinator: MainCoordinator<SettingsPresenter, Setti
     let userID = dataManager.userAuthorization.userID
     LoadingHUD.show(in: viewController.view)
     userManager.logout(userID: userID)
-      .observeOn(MainScheduler.instance)
+      .observe(on: MainScheduler.instance)
       .subscribe(
         onSuccess: { [weak self] () -> Void in
           guard let strongSelf = self else { return }
           LoadingHUD.hide(from: strongSelf.viewController.view)
           strongSelf.delegate?.settingsCoordinatorLogoutCurrentUser(strongSelf)
         },
-        onError: { [weak self] error -> Void in
+        onFailure: { [weak self] error -> Void in
           guard let strongSelf = self else { return }
           LoadingHUD.hide(from: strongSelf.viewController.view)
           strongSelf.viewController.alert(error, title: "Failed to logout")
@@ -131,7 +133,7 @@ public final class SettingsCoordinator: MainCoordinator<SettingsPresenter, Setti
     switch action {
     case let .editUser(barButtonItem):
       dataManager.user(withID: dataManager.userAuthorization.userID)
-        .observeOn(MainScheduler.instance)
+        .observe(on: MainScheduler.instance)
         .subscribe(
           onSuccess: { [weak self] (user: User?) -> Void in
             guard let strongSelf = self, let user = user else { return }

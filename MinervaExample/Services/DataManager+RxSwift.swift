@@ -38,7 +38,7 @@ extension DataManager {
       self.create(withEmail: email, password: password, dailyCalories: dailyCalories, role: role) {
         error in
         if let error = error {
-          single(.error(error))
+          single(.failure(error))
         } else {
           single(.success(()))
         }
@@ -100,7 +100,7 @@ extension DataManager {
     Single.create { single in
       block { error in
         if let error = error {
-          single(.error(error))
+          single(.failure(error))
         } else {
           single(.success(()))
         }
@@ -113,7 +113,7 @@ extension DataManager {
     Single.create { single in
       block { result, error in
         if let error = error {
-          single(.error(error))
+          single(.failure(error))
         } else {
           single(.success(result))
         }

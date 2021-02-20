@@ -5,7 +5,9 @@
 //
 
 import Foundation
-import Minerva
+import MinervaCoordinator
+import MinervaExtensions
+import MinervaList
 import RxRelay
 import RxSwift
 import UIKit
@@ -49,7 +51,7 @@ public final class WorkoutCoordinator: MainCoordinator<WorkoutPresenter, Workout
     guard case .viewDidLoad = event else { return }
 
     presenter.actions
-      .observeOn(MainScheduler.instance)
+      .observe(on: MainScheduler.instance)
       .subscribe(onNext: handle(action:), onError: nil, onCompleted: nil, onDisposed: nil)
       .disposed(by: disposeBag)
   }

@@ -1,0 +1,6 @@
+framework module MinervaCoordinator {
+  umbrella header "MinervaCoordinator-umbrella.h"
+
+  export *
+  module * { export * }
+}

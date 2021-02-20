@@ -3,6 +3,9 @@ ${BUILT_PRODUCTS_DIR}/IGListDiffKit/IGListDiffKit.framework
 ${BUILT_PRODUCTS_DIR}/IGListKit/IGListKit.framework
 ${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework
 ${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework
+${BUILT_PRODUCTS_DIR}/MinervaCoordinator/MinervaCoordinator.framework
+${BUILT_PRODUCTS_DIR}/MinervaExtensions/MinervaExtensions.framework
+${BUILT_PRODUCTS_DIR}/MinervaList/MinervaList.framework
 ${BUILT_PRODUCTS_DIR}/PanModal/PanModal.framework
 ${BUILT_PRODUCTS_DIR}/RxRelay/RxRelay.framework
 ${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework

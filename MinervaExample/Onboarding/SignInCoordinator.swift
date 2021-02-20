@@ -5,7 +5,9 @@
 //
 
 import Foundation
-import Minerva
+import MinervaCoordinator
+import MinervaExtensions
+import MinervaList
 import RxSwift
 import UIKit
 
@@ -36,7 +38,7 @@ public final class SignInCoordinator: MainCoordinator<SignInPresenter, Collectio
         listController: listController
       )
     presenter.actions
-      .observeOn(MainScheduler.instance)
+      .observe(on: MainScheduler.instance)
       .subscribe(onNext: { [weak self] in self?.handle($0) })
       .disposed(
         by: disposeBag
@@ -48,14 +50,14 @@ public final class SignInCoordinator: MainCoordinator<SignInPresenter, Collectio
   private func createAccount(withEmail email: String, password: String) {
     LoadingHUD.show(in: viewController.view)
     userManager.createAccount(withEmail: email, password: password)
-      .observeOn(MainScheduler.instance)
+      .observe(on: MainScheduler.instance)
       .subscribe(
         onSuccess: { [weak self] dataManager in
           guard let strongSelf = self else { return }
           LoadingHUD.hide(from: strongSelf.viewController.view)
           strongSelf.delegate?.signInCoordinator(strongSelf, activated: dataManager)
         },
-        onError: { [weak self] error -> Void in
+        onFailure: { [weak self] error -> Void in
           guard let strongSelf = self else { return }
           LoadingHUD.hide(from: strongSelf.viewController.view)
           strongSelf.viewController.alert(
@@ -70,14 +72,14 @@ public final class SignInCoordinator: MainCoordinator<SignInPresenter, Collectio
   private func login(withEmail email: String, password: String) {
     LoadingHUD.show(in: viewController.view)
     userManager.login(withEmail: email, password: password)
-      .observeOn(MainScheduler.instance)
+      .observe(on: MainScheduler.instance)
       .subscribe(
         onSuccess: { [weak self] dataManager in
           guard let strongSelf = self else { return }
           LoadingHUD.hide(from: strongSelf.viewController.view)
           strongSelf.delegate?.signInCoordinator(strongSelf, activated: dataManager)
         },
-        onError: { [weak self] error -> Void in
+        onFailure: { [weak self] error -> Void in
           guard let strongSelf = self else { return }
           LoadingHUD.hide(from: strongSelf.viewController.view)
           strongSelf.viewController.alert(

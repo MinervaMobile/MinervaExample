@@ -5,7 +5,9 @@
 //
 
 import Foundation
-import Minerva
+import MinervaCoordinator
+import MinervaExtensions
+import MinervaList
 import UIKit
 
 /// Responsible for launching, and transitioning between, the onboarding and active user flows.

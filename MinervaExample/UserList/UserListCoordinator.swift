@@ -5,7 +5,9 @@
 //
 
 import Foundation
-import Minerva
+import MinervaCoordinator
+import MinervaExtensions
+import MinervaList
 import RxSwift
 import UIKit
 
@@ -50,17 +52,17 @@ public final class UserListCoordinator: MainCoordinator<UserListPresenter, UserL
     guard case .viewDidLoad = event else { return }
 
     presenter.state
-      .observeOn(MainScheduler.instance)
+      .observe(on: MainScheduler.instance)
       .subscribe(onNext: handle(_:))
       .disposed(by: disposeBag)
 
     presenter.actions
-      .observeOn(MainScheduler.instance)
+      .observe(on: MainScheduler.instance)
       .subscribe(onNext: handle(_:))
       .disposed(by: disposeBag)
 
     viewController.actions
-      .observeOn(MainScheduler.instance)
+      .observe(on: MainScheduler.instance)
       .subscribe(onNext: handle(_:))
       .disposed(by: disposeBag)
   }
@@ -99,7 +101,7 @@ public final class UserListCoordinator: MainCoordinator<UserListPresenter, UserL
     LoadingHUD.show(in: viewController.view)
     let logoutCurrentUser = dataManager.userAuthorization.userID == userID
     dataManager.deleteUser(withUserID: userID)
-      .observeOn(MainScheduler.instance)
+      .observe(on: MainScheduler.instance)
       .subscribe(
         onSuccess: { [weak self] in
           guard let strongSelf = self else { return }
@@ -107,7 +109,7 @@ public final class UserListCoordinator: MainCoordinator<UserListPresenter, UserL
           guard logoutCurrentUser else { return }
           strongSelf.delegate?.userListCoordinatorLogoutCurrentUser(strongSelf)
         },
-        onError: { [weak self] error -> Void in
+        onFailure: { [weak self] error -> Void in
           guard let strongSelf = self else { return }
           LoadingHUD.hide(from: strongSelf.viewController.view)
           strongSelf.viewController.alert(error, title: "Failed to delete the user")
@@ -120,7 +122,7 @@ public final class UserListCoordinator: MainCoordinator<UserListPresenter, UserL
     LoadingHUD.show(in: viewController.view)
     let logoutCurrentUser = dataManager.userAuthorization.userID == userID
     userManager.logout(userID: userID)
-      .observeOn(MainScheduler.instance)
+      .observe(on: MainScheduler.instance)
       .subscribe(
         onSuccess: { [weak self] in
           guard let strongSelf = self else { return }
@@ -128,7 +130,7 @@ public final class UserListCoordinator: MainCoordinator<UserListPresenter, UserL
           guard logoutCurrentUser else { return }
           strongSelf.delegate?.userListCoordinatorLogoutCurrentUser(strongSelf)
         },
-        onError: { [weak self] error -> Void in
+        onFailure: { [weak self] error -> Void in
           guard let strongSelf = self else { return }
           LoadingHUD.hide(from: strongSelf.viewController.view)
           strongSelf.viewController.alert(error, title: "Failed to logout")
@@ -156,13 +158,13 @@ public final class UserListCoordinator: MainCoordinator<UserListPresenter, UserL
   private func save(user: User) {
     LoadingHUD.show(in: viewController.view)
     dataManager.update(user)
-      .observeOn(MainScheduler.instance)
+      .observe(on: MainScheduler.instance)
       .subscribe(
         onSuccess: { [weak self] in
           guard let strongSelf = self else { return }
           LoadingHUD.hide(from: strongSelf.viewController.view)
         },
-        onError: { [weak self] error -> Void in
+        onFailure: { [weak self] error -> Void in
           guard let strongSelf = self else { return }
           LoadingHUD.hide(from: strongSelf.viewController.view)
           strongSelf.viewController.alert(error, title: "Failed to save the user")

@@ -5,7 +5,9 @@
 //
 
 import Foundation
-import Minerva
+import MinervaCoordinator
+import MinervaExtensions
+import MinervaList
 import RxSwift
 import UIKit
 
@@ -35,7 +37,7 @@ public final class UpdateUserCoordinator: PanModalCollectionCoordinator<
         padDisplayMode: padDisplayMode
       )
     presenter.actions
-      .observeOn(MainScheduler.instance)
+      .observe(on: MainScheduler.instance)
       .subscribe(onNext: { [weak self] in self?.handle($0) })
       .disposed(
         by: disposeBag
@@ -46,14 +48,14 @@ public final class UpdateUserCoordinator: PanModalCollectionCoordinator<
   private func save(user: User) {
     LoadingHUD.show(in: viewController.view)
     dataManager.update(user)
-      .observeOn(MainScheduler.instance)
+      .observe(on: MainScheduler.instance)
       .subscribe(
         onSuccess: { [weak self] () -> Void in
           guard let strongSelf = self else { return }
           LoadingHUD.hide(from: strongSelf.viewController.view)
           strongSelf.navigator.dismiss(strongSelf.viewController, animated: true)
         },
-        onError: { [weak self] error -> Void in
+        onFailure: { [weak self] error -> Void in
           guard let strongSelf = self else { return }
           LoadingHUD.hide(from: strongSelf.viewController.view)
           strongSelf.viewController.alert(error, title: "Failed to save the user")

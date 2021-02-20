@@ -1,5 +1,7 @@
 import Foundation
-import Minerva
+import MinervaCoordinator
+import MinervaExtensions
+import MinervaList
 import RxSwift
 import UIKit
 
@@ -33,7 +35,7 @@ public final class WorkoutSplitCoordinator: SplitViewCoordinator<
 
     masterCoordinator
       .actionRelay
-      .observeOn(MainScheduler.instance)
+      .observe(on: MainScheduler.instance)
       .subscribe(onNext: handle(action:), onError: nil, onCompleted: nil, onDisposed: nil)
       .disposed(by: disposeBag)
   }

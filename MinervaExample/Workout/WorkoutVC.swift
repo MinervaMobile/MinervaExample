@@ -5,7 +5,9 @@
 //
 
 import Foundation
-import Minerva
+import MinervaCoordinator
+import MinervaExtensions
+import MinervaList
 import RxSwift
 import UIKit
 
@@ -39,17 +41,17 @@ public final class WorkoutVC: BaseViewController {
     setupViewsAndConstraints()
 
     presenter.sections
-      .observeOn(MainScheduler.instance)
+      .observe(on: MainScheduler.instance)
       .subscribe(onNext: updated(_:), onError: nil, onCompleted: nil, onDisposed: nil)
       .disposed(by: disposeBag)
 
     presenter.persistentState
-      .observeOn(MainScheduler.instance)
+      .observe(on: MainScheduler.instance)
       .subscribe(onNext: updated(_:), onError: nil, onCompleted: nil, onDisposed: nil)
       .disposed(by: disposeBag)
 
     presenter.transientState
-      .observeOn(MainScheduler.instance)
+      .observe(on: MainScheduler.instance)
       .subscribe(onNext: updated(_:), onError: nil, onCompleted: nil, onDisposed: nil)
       .disposed(by: disposeBag)
 
